@@ -44,9 +44,10 @@ public class MyCourseRecyclerViewAdapter extends RecyclerView.Adapter<MyCourseRe
     }
 
     @Override
-    public void onBindViewHolder(final ViewHolder holder, int position) {
+    public void onBindViewHolder(final ViewHolder holder, final int position) {
         holder.mCourse = mValues.get(position);
         holder.mIdView.setText(mValues.get(position).getmCourseId());
+        System.out.println(mValues.get(position).getmCourseId().toString());
         holder.mContentView.setText(mValues.get(position).getmShortDescription());
 
         holder.mView.setOnClickListener(new View.OnClickListener() {
@@ -55,6 +56,7 @@ public class MyCourseRecyclerViewAdapter extends RecyclerView.Adapter<MyCourseRe
                 if (null != mListener) {
                     // Notify the active callbacks interface (the activity, if the
                     // fragment is attached to one) that an item has been selected.
+                    //System.out.println(holder.mCourse);
                     mListener.onListFragmentInteraction(holder.mCourse);
                 }
             }
