@@ -107,7 +107,7 @@ public class CourseFragment extends Fragment {
      */
     public interface OnListFragmentInteractionListener {
         // TODO: Update argument type and name
-        void onListFragmentInteraction(Course item);
+        void onListFragmentInteraction(Course course);
     }
 
 
@@ -164,6 +164,7 @@ public class CourseFragment extends Fragment {
 
             // Everything is good, show the list of courses.
             if (!courseList.isEmpty()) {
+
                 mRecyclerView.setAdapter(new MyCourseRecyclerViewAdapter(courseList, mListener));
             }
         }
