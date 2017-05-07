@@ -16,7 +16,7 @@ import com.example.hinds.webservicelab.course.Course;
 /**
  * A simple {@link Fragment} subclass.
  * Activities that contain this fragment must implement the
- * {@link CourseDetailFragment.OnFragmentInteractionListener} interface
+ * {@link CourseDetailFragment.OnListFragmentInteractionListener} interface
  * to handle interaction events.
  * Use the {@link CourseDetailFragment#newInstance} factory method to
  * create an instance of this fragment.
@@ -36,7 +36,7 @@ public class CourseDetailFragment extends Fragment {
     private TextView mCourseLongDescTextView;
     private TextView mCoursePrereqsTextView;
 
-    private OnFragmentInteractionListener mListener;
+    private CourseFragment.OnListFragmentInteractionListener mListener;
 
 
     public CourseDetailFragment() {
@@ -115,18 +115,12 @@ public class CourseDetailFragment extends Fragment {
 
     }
 
-    // TODO: Rename method, update argument and hook method into UI event
-    public void onButtonPressed(Course course) {
-        if (mListener != null) {
-            mListener.onFragmentInteraction(course);
-        }
-    }
 
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
-        if (context instanceof OnFragmentInteractionListener) {
-            mListener = (OnFragmentInteractionListener) context;
+        if (context instanceof CourseFragment.OnListFragmentInteractionListener) {
+            mListener = (CourseFragment.OnListFragmentInteractionListener) context;
         } else {
             throw new RuntimeException(context.toString()
                     + " must implement OnFragmentInteractionListener");
@@ -139,18 +133,5 @@ public class CourseDetailFragment extends Fragment {
         mListener = null;
     }
 
-    /**
-     * This interface must be implemented by activities that contain this
-     * fragment to allow an interaction in this fragment to be communicated
-     * to the activity and potentially other fragments contained in that
-     * activity.
-     * <p>
-     * See the Android Training lesson <a href=
-     * "http://developer.android.com/training/basics/fragments/communicating.html"
-     * >Communicating with Other Fragments</a> for more information.
-     */
-    public interface OnFragmentInteractionListener {
-        // TODO: Update argument type and name
-        void onFragmentInteraction(Course course);
-    }
+
 }

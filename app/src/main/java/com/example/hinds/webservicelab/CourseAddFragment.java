@@ -42,7 +42,7 @@ public class CourseAddFragment extends Fragment {
     private CourseAddListener mListener;
 
     private final static String COURSE_ADD_URL
-            = "http://cssgate.insttech.washington.edu/~uwnetid/addCourse.php?";
+            = "http://cssgate.insttech.washington.edu/~hindsr/Android/addCourse.php?";
 
 
     public interface CourseAddListener {
