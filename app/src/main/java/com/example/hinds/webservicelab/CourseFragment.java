@@ -4,7 +4,9 @@ import android.app.Activity;
 import android.content.Context;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.ListFragment;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -40,7 +42,9 @@ public class CourseFragment extends Fragment {
     // TODO: Customize parameters
     private int mColumnCount = 1;
     private RecyclerView mRecyclerView = null;
-    OnListFragmentInteractionListener mListener;
+    public OnListFragmentInteractionListener mListener;
+
+
 
 
     private static final String COURSE_URL = "http://cssgate.insttech.washington.edu/~hindsr/Android/list.php?cmd=courses";
@@ -88,12 +92,31 @@ public class CourseFragment extends Fragment {
             DownloadCoursesTask task = new DownloadCoursesTask();
             task.execute(new String[]{COURSE_URL});
         }
+
+        FloatingActionButton floatingActionButton = (FloatingActionButton)
+                getActivity().findViewById(R.id.fab);
+        floatingActionButton.show();
+
         return view;
     }
 
 
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+        if (context instanceof OnListFragmentInteractionListener) {
+            mListener = (OnListFragmentInteractionListener) context;
+        } else {
+            throw new RuntimeException(context.toString()
+                    + " must implement OnListFragmentInteractionListener");
+        }
+    }
 
-
+    @Override
+    public void onDetach() {
+        super.onDetach();
+        mListener = null;
+    }
 
     /**
      * This interface must be implemented by activities that contain this

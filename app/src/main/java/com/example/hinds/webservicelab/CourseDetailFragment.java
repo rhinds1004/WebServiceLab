@@ -3,6 +3,7 @@ package com.example.hinds.webservicelab;
 import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -79,6 +80,11 @@ public class CourseDetailFragment extends Fragment {
         mCourseLongDescTextView = (TextView) view.findViewById(R.id.course_long_desc);
         mCoursePrereqsTextView = (TextView) view.findViewById(R.id.course_prereqs);
 
+        FloatingActionButton floatingActionButton = (FloatingActionButton)
+                getActivity().findViewById(R.id.fab);
+        floatingActionButton.show();
+
+
         return view;
 
     }
@@ -110,9 +116,9 @@ public class CourseDetailFragment extends Fragment {
     }
 
     // TODO: Rename method, update argument and hook method into UI event
-    public void onButtonPressed(Uri uri) {
+    public void onButtonPressed(Course course) {
         if (mListener != null) {
-            mListener.onFragmentInteraction(uri);
+            mListener.onFragmentInteraction(course);
         }
     }
 
@@ -145,6 +151,6 @@ public class CourseDetailFragment extends Fragment {
      */
     public interface OnFragmentInteractionListener {
         // TODO: Update argument type and name
-        void onFragmentInteraction(Uri uri);
+        void onFragmentInteraction(Course course);
     }
 }

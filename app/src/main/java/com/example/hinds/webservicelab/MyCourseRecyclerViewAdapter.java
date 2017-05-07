@@ -30,9 +30,11 @@ public class MyCourseRecyclerViewAdapter extends RecyclerView.Adapter<MyCourseRe
     private final OnListFragmentInteractionListener mListener;
 
 
+
     public MyCourseRecyclerViewAdapter(List<Course> items, OnListFragmentInteractionListener listener) {
         mValues = items;
         mListener = listener;
+
 
     }
 
@@ -47,21 +49,29 @@ public class MyCourseRecyclerViewAdapter extends RecyclerView.Adapter<MyCourseRe
     public void onBindViewHolder(final ViewHolder holder, final int position) {
         holder.mCourse = mValues.get(position);
         holder.mIdView.setText(mValues.get(position).getmCourseId());
-        System.out.println(mValues.get(position).getmCourseId().toString());
+      // System.out.println(mValues.get(position));
         holder.mContentView.setText(mValues.get(position).getmShortDescription());
-
+       // System.out.println(holder.mCourse);
         holder.mView.setOnClickListener(new View.OnClickListener() {
+
             @Override
             public void onClick(View v) {
                 if (null != mListener) {
                     // Notify the active callbacks interface (the activity, if the
                     // fragment is attached to one) that an item has been selected.
-                    //System.out.println(holder.mCourse);
+
                     mListener.onListFragmentInteraction(holder.mCourse);
                 }
             }
         });
     }
+
+    @Override
+    public void onAttachedToRecyclerView(RecyclerView recyclerView) {
+        super.onAttachedToRecyclerView(recyclerView);
+    }
+
+
 
     @Override
     public int getItemCount() {

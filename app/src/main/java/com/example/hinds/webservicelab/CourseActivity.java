@@ -10,8 +10,10 @@ import android.view.View;
 
 import com.example.hinds.webservicelab.course.Course;
 
+
 public class CourseActivity extends AppCompatActivity implements
-        CourseFragment.OnListFragmentInteractionListener{
+        CourseFragment.OnListFragmentInteractionListener,
+        CourseAddFragment.CourseAddListener {
 
     private static final String TAG = "MyFragment" ;
 
@@ -26,8 +28,12 @@ public class CourseActivity extends AppCompatActivity implements
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
+                CourseAddFragment courseAddFragment = new CourseAddFragment();
+                getSupportFragmentManager().beginTransaction()
+                        .replace(R.id.fragment_container, courseAddFragment)
+                        .addToBackStack(null)
+                        .commit();
+
             }
         });
 
@@ -41,16 +47,23 @@ public class CourseActivity extends AppCompatActivity implements
 
     @Override
     public void onListFragmentInteraction(Course course) {
-        System.out.println("onListFragmentInteraction");
+
         CourseDetailFragment courseDetailFragment = new CourseDetailFragment();
         Bundle args = new Bundle();
         args.putSerializable(CourseDetailFragment.COURSE_ITEM_SELECTED,  course);
         courseDetailFragment.setArguments(args);
-        System.out.println("CLicked");
+
         getSupportFragmentManager().beginTransaction()
                 .replace(R.id.fragment_container, courseDetailFragment)
                 .addToBackStack(null)
                 .commit();
+
+    }
+
+
+
+    @Override
+    public void addCourse(String url) {
 
     }
 }
