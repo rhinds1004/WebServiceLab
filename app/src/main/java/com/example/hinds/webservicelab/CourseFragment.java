@@ -108,7 +108,7 @@ public class CourseFragment extends Fragment {
             mListener = (OnListFragmentInteractionListener) context;
         } else {
             throw new RuntimeException(context.toString()
-                    + " must implement OnListFragmentInteractionListener");
+                    + " must implement OnEditFragmentInteractionListener");
         }
     }
 
@@ -140,7 +140,7 @@ public class CourseFragment extends Fragment {
      */
 
     private class DownloadCoursesTask extends AsyncTask<String, Void, String> {
-        //private OnListFragmentInteractionListener mListener;
+        //private OnEditFragmentInteractionListener mListener;
         @Override
         protected String doInBackground(String... urls) {
             String response = "";

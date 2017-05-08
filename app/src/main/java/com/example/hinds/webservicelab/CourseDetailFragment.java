@@ -1,13 +1,14 @@
 package com.example.hinds.webservicelab;
 
 import android.content.Context;
-import android.net.Uri;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageButton;
 import android.widget.TextView;
 
 import com.example.hinds.webservicelab.course.Course;
@@ -24,9 +25,12 @@ import com.example.hinds.webservicelab.course.Course;
 public class CourseDetailFragment extends Fragment {
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-    private static final String ARG_PARAM1 = "param1";
+    private static final String ARG_PARAM1 = "test";
     private static final String ARG_PARAM2 = "param2";
-
+    private static final String ARG_SHORTDESC = "shortDesc";
+    private static final String ARG_LONGDESC = "longDesc";
+    private static final String ARG_COURSEID = "courseID";
+    private static final String ARG_PREREQS  = "prereqs";
     // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
@@ -36,8 +40,9 @@ public class CourseDetailFragment extends Fragment {
     private TextView mCourseLongDescTextView;
     private TextView mCoursePrereqsTextView;
 
-    private CourseFragment.OnListFragmentInteractionListener mListener;
+    private OnEditFragmentInteractionListener mListener;
 
+    private Course mCourse;
 
     public CourseDetailFragment() {
         // Required empty public constructor
@@ -55,7 +60,7 @@ public class CourseDetailFragment extends Fragment {
     public static CourseDetailFragment newInstance(String param1, String param2) {
         CourseDetailFragment fragment = new CourseDetailFragment();
         Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
+        args.putString(ARG_PARAM2, param1);
         args.putString(ARG_PARAM2, param2);
         fragment.setArguments(args);
         return fragment;
@@ -79,7 +84,15 @@ public class CourseDetailFragment extends Fragment {
         mCourseShortDescTextView = (TextView) view.findViewById(R.id.course_short_desc);
         mCourseLongDescTextView = (TextView) view.findViewById(R.id.course_long_desc);
         mCoursePrereqsTextView = (TextView) view.findViewById(R.id.course_prereqs);
+        ImageButton editCourseButton = (ImageButton) view.findViewById(R.id.button_edit_course);
+        editCourseButton.setOnClickListener(new View.OnClickListener() {
+                                                @Override
+                                                public void onClick(View v) {
 
+                                                    myClicker();
+                                                }
+
+                                            });
         FloatingActionButton floatingActionButton = (FloatingActionButton)
                 getActivity().findViewById(R.id.fab);
         floatingActionButton.show();
@@ -88,6 +101,24 @@ public class CourseDetailFragment extends Fragment {
         return view;
 
     }
+public void myClicker(){
+
+    Bundle args = new Bundle();
+    args.putString(ARG_COURSEID, mCourseIdTextView.getText().toString());
+    args.putString(ARG_SHORTDESC, mCourseShortDescTextView.getText().toString());
+    args.putString(ARG_LONGDESC, mCourseLongDescTextView.getText().toString());
+    args.putString(ARG_PREREQS, mCoursePrereqsTextView.getText().toString());
+    //bundle.putSerializable("SerialCourse", mCourse);
+    CourseEditFragment cf = new CourseEditFragment();
+
+    cf.setArguments(args);
+    FragmentManager fm = getFragmentManager();
+    fm.beginTransaction()
+            .replace(R.id.fragment_container, cf)
+            .addToBackStack(null)
+            .commit();
+}
+
 
     public void updateView(Course course){
         if(course != null){
@@ -119,9 +150,10 @@ public class CourseDetailFragment extends Fragment {
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
-        if (context instanceof CourseFragment.OnListFragmentInteractionListener) {
-            mListener = (CourseFragment.OnListFragmentInteractionListener) context;
-        } else {
+        if (context instanceof OnEditFragmentInteractionListener) {
+          mListener = (OnEditFragmentInteractionListener) context;
+           // mListener.OnEditFragmentInteraction(mCourse);
+        }  else{
             throw new RuntimeException(context.toString()
                     + " must implement OnFragmentInteractionListener");
         }
@@ -133,5 +165,9 @@ public class CourseDetailFragment extends Fragment {
         mListener = null;
     }
 
+    public interface OnEditFragmentInteractionListener {
+        // TODO: Update argument type and name
+        void OnEditFragmentInteraction(Course course);
+    }
 
 }

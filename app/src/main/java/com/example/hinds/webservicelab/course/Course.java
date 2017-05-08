@@ -27,6 +27,7 @@ public class Course implements Serializable{
         this.mShortDescription = mShortDescription;
         this.mLongDescription = mLongDescription;
         this.mPrereqs = mPrereqs;
+
     }
 
     public String getmCourseId() {
@@ -60,6 +61,8 @@ public class Course implements Serializable{
     public void setmPrereqs(String mPrereqs) {
         this.mPrereqs = mPrereqs;
     }
+
+
 
     /**
      * Parses the json string, returns an error message if unsuccessful.

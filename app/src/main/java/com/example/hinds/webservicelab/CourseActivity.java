@@ -3,10 +3,7 @@ package com.example.hinds.webservicelab;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
 
@@ -24,7 +21,7 @@ import java.net.URL;
 
 public class CourseActivity extends AppCompatActivity implements
         CourseFragment.OnListFragmentInteractionListener,
-        CourseAddFragment.CourseAddListener{
+        CourseAddFragment.CourseAddListener, CourseDetailFragment.OnEditFragmentInteractionListener {
 
     private static final String TAG = "MyFragment" ;
 
@@ -63,7 +60,7 @@ public class CourseActivity extends AppCompatActivity implements
         Bundle args = new Bundle();
         args.putSerializable(CourseDetailFragment.COURSE_ITEM_SELECTED,  course);
         courseDetailFragment.setArguments(args);
-        System.out.println("test");
+       // System.out.println("test");
         getSupportFragmentManager().beginTransaction()
                 .replace(R.id.fragment_container, courseDetailFragment)
                 .addToBackStack(null)
@@ -83,7 +80,18 @@ public class CourseActivity extends AppCompatActivity implements
 
     }
 
-
+    @Override
+    public void OnEditFragmentInteraction(Course course) {
+        CourseEditFragment courseEditFragment = new CourseEditFragment();
+       /* Bundle args = new Bundle();
+        args.putSerializable(CourseDetailFragment.COURSE_ITEM_SELECTED,  course);
+        courseDetailFragment.setArguments(args);*/
+        System.out.println("test");
+        getSupportFragmentManager().beginTransaction()
+                .replace(R.id.fragment_container, courseEditFragment)
+                .addToBackStack(null)
+                .commit();
+    }
 
     private class AddCourseTask extends AsyncTask<String, Void, String> {
 
