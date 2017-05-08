@@ -38,8 +38,8 @@ public class CourseEditFragment extends Fragment {
     private EditText mCourseLongDescEditText;
     private EditText mCoursePrereqsEditText;
 
-    private OnFragmentInteractionListener mListener;
-
+   // private OnFragmentInteractionListener mListener;
+    private CourseAddFragment.CourseAddListener mListener;
     public CourseEditFragment() {
         // Required empty public constructor
     }
@@ -69,10 +69,10 @@ public class CourseEditFragment extends Fragment {
             mParam1 = getArguments().getString(ARG_PARAM1);
             mParam2 = getArguments().getString(ARG_PARAM2);
 
-            System.out.println(getArguments().getString(ARG_COURSEID));
+/*            System.out.println(getArguments().getString(ARG_COURSEID));
             System.out.println(getArguments().getString(ARG_SHORTDESC));
             System.out.println(getArguments().getString(ARG_LONGDESC));
-            System.out.println(getArguments().getString(ARG_PREREQS));
+            System.out.println(getArguments().getString(ARG_PREREQS));*/
 
         }
     }
@@ -82,18 +82,24 @@ public class CourseEditFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view =  inflater.inflate(R.layout.fragment_course_edit, container, false);
-        System.out.println(getArguments().getString(ARG_COURSEID));
+
+
+
+        TextView  textViewToChange = (TextView) view.findViewById(R.id.editText_edit_course_id);
+        textViewToChange.setText(getArguments().getString(ARG_COURSEID));
+        textViewToChange = (EditText) view.findViewById(R.id.editText_edit_course_short_desc);
+        textViewToChange.setText(getArguments().getString(ARG_SHORTDESC));
+        textViewToChange = (EditText) view.findViewById(R.id.editText_edit_course_long_desc);
+        textViewToChange.setText(getArguments().getString(ARG_LONGDESC));
+        textViewToChange = (EditText) view.findViewById(R.id.editText_edit_course_prereqs);
+        textViewToChange.setText(getArguments().getString(ARG_PREREQS));
 
 
         return view;
     }
 
-    // TODO: Rename method, update argument and hook method into UI event
-    public void onButtonPressed(Uri uri) {
-        if (mListener != null) {
-            mListener.onFragmentInteraction(uri);
-        }
-    }
+
+
 /*
     @Override
     public void onAttach(Context context) {
