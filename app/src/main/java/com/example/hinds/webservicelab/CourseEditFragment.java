@@ -4,13 +4,18 @@ import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.hinds.webservicelab.course.Course;
+
+import java.net.URLEncoder;
 
 
 /**
@@ -40,6 +45,7 @@ public class CourseEditFragment extends Fragment {
 
    // private OnFragmentInteractionListener mListener;
     private CourseAddFragment.CourseAddListener mListener;
+
     public CourseEditFragment() {
         // Required empty public constructor
     }
@@ -68,12 +74,6 @@ public class CourseEditFragment extends Fragment {
         if (getArguments() != null) {
             mParam1 = getArguments().getString(ARG_PARAM1);
             mParam2 = getArguments().getString(ARG_PARAM2);
-
-/*            System.out.println(getArguments().getString(ARG_COURSEID));
-            System.out.println(getArguments().getString(ARG_SHORTDESC));
-            System.out.println(getArguments().getString(ARG_LONGDESC));
-            System.out.println(getArguments().getString(ARG_PREREQS));*/
-
         }
     }
 
@@ -83,32 +83,71 @@ public class CourseEditFragment extends Fragment {
         // Inflate the layout for this fragment
         View view =  inflater.inflate(R.layout.fragment_course_edit, container, false);
 
+         mCourseIdTextView       =  (TextView) view.findViewById(R.id.editText_edit_course_id) ;
+         mCourseShortDescEditText= (EditText) view.findViewById(R.id.editText_edit_course_short_desc)  ;
+         mCourseLongDescEditText =  (EditText) view.findViewById(R.id.editText_edit_course_long_desc) ;
+         mCoursePrereqsEditText  =  (EditText) view.findViewById(R.id.editText_edit_course_prereqs) ;
+        mCourseIdTextView.setText(getArguments().getString(ARG_COURSEID));
+        mCourseShortDescEditText.setText(getArguments().getString(ARG_SHORTDESC));
+        mCourseLongDescEditText.setText(getArguments().getString(ARG_LONGDESC));
+        mCoursePrereqsEditText.setText(getArguments().getString(ARG_PREREQS));
 
-
-        TextView  textViewToChange = (TextView) view.findViewById(R.id.editText_edit_course_id);
-        textViewToChange.setText(getArguments().getString(ARG_COURSEID));
-        textViewToChange = (EditText) view.findViewById(R.id.editText_edit_course_short_desc);
-        textViewToChange.setText(getArguments().getString(ARG_SHORTDESC));
-        textViewToChange = (EditText) view.findViewById(R.id.editText_edit_course_long_desc);
-        textViewToChange.setText(getArguments().getString(ARG_LONGDESC));
-        textViewToChange = (EditText) view.findViewById(R.id.editText_edit_course_prereqs);
-        textViewToChange.setText(getArguments().getString(ARG_PREREQS));
+       Button addCourseButton = (Button) view.findViewById(R.id.button_edit_course);
+        addCourseButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String url = buildCourseURL(v);
+                mListener.addCourse(url);
+            }
+        });
 
 
         return view;
     }
 
+    private final static String COURSE_EDIT_URL
+            = "http://cssgate.insttech.washington.edu/~hindsr/Android/editCourse.php?";
+    private String buildCourseURL (View v){
+
+        StringBuilder sb = new StringBuilder(COURSE_EDIT_URL);
+
+        try {
+
+            String courseId = mCourseIdTextView.getText().toString();
+            sb.append("id=");
+            sb.append(courseId);
 
 
-/*
+            String courseShortDesc = mCourseShortDescEditText.getText().toString();
+            sb.append("&shortDesc=");
+            sb.append(URLEncoder.encode(courseShortDesc, "UTF-8"));
+
+
+            String courseLongDesc = mCourseLongDescEditText.getText().toString();
+            sb.append("&longDesc=");
+            sb.append(URLEncoder.encode(courseLongDesc, "UTF-8"));
+            String coursePrereqs = mCoursePrereqsEditText.getText().toString();
+            sb.append("&prereqs=");
+            sb.append(URLEncoder.encode(coursePrereqs, "UTF-8"));
+
+            Log.i("CourseAddFragment", sb.toString());
+
+        } catch (Exception e) {
+            Toast.makeText(v.getContext(), "Something wrong with the url" + e.getMessage(), Toast.LENGTH_LONG)
+                    .show();
+        }
+        return sb.toString();
+
+    }
+
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
-        if (context instanceof OnFragmentInteractionListener) {
-            mListener = (OnFragmentInteractionListener) context;
+        if (context instanceof CourseAddFragment.CourseAddListener) {
+            mListener = (CourseAddFragment.CourseAddListener) context;
         } else {
             throw new RuntimeException(context.toString()
-                    + " must implement OnFragmentInteractionListener");
+                    + " must implement CourseAddListener");
         }
     }
 
@@ -116,7 +155,7 @@ public class CourseEditFragment extends Fragment {
     public void onDetach() {
         super.onDetach();
         mListener = null;
-    }*/
+    }
 
     /**
      * This interface must be implemented by activities that contain this

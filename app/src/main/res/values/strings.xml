@@ -11,6 +11,7 @@
     <string name="enter_course_id_ex_tces460">Enter Course Id: (Ex: TCES460)</string>
     <string name="enter_long_course_description">Enter Long Course Description:</string>
     <string name="add_course">ADD COURSE</string>
+    <string name="edit_course">EDIT COURSE</string>
     <string name="enter_short_course_description_ex_operating_systems">Enter Short Course Description: \n (Ex: Operating Systems)</string>
     <string name="course_id">Course ID</string>
     <string name="editText_edit_course_id">editText_edit_course_id</string>
