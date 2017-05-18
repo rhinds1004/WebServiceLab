@@ -13,8 +13,6 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.example.hinds.webservicelab.course.Course;
-
 import java.net.URLEncoder;
 
 
@@ -92,8 +90,8 @@ public class CourseEditFragment extends Fragment {
         mCourseLongDescEditText.setText(getArguments().getString(ARG_LONGDESC));
         mCoursePrereqsEditText.setText(getArguments().getString(ARG_PREREQS));
 
-       Button addCourseButton = (Button) view.findViewById(R.id.button_edit_course);
-        addCourseButton.setOnClickListener(new View.OnClickListener() {
+       Button editCourseButton = (Button) view.findViewById(R.id.button_edit_course);
+        editCourseButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 String url = buildCourseURL(v);
