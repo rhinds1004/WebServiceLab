@@ -12,6 +12,8 @@ import android.widget.Toast;
 import com.example.hinds.webservicelab.CourseActivity;
 import com.example.hinds.webservicelab.R;
 
+import java.io.OutputStreamWriter;
+
 public class SignInActivity extends AppCompatActivity implements LoginFragment.LoginInteractionListener {
 private SharedPreferences mSharedPreferences;
 
@@ -41,6 +43,19 @@ private SharedPreferences mSharedPreferences;
         if (networkInfo != null && networkInfo.isConnected()) {
             //Check if the login and password are valid
             //new LoginTask().execute(url);
+            try {
+                OutputStreamWriter outputStreamWriter = new OutputStreamWriter(
+                        openFileOutput(getString(R.string.LOGIN_FILE)
+                                , Context.MODE_PRIVATE));
+                outputStreamWriter.write("email = " + userId + ";");
+                outputStreamWriter.write("password = " + pwd);
+                outputStreamWriter.close();
+                Toast.makeText(this,"Stored in File Successfully!", Toast.LENGTH_LONG)
+                        .show();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+
         }
         else {
             Toast.makeText(this, "No network connection available. Cannot authenticate user",

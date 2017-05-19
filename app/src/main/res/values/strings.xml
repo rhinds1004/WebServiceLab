@@ -20,4 +20,5 @@
     <string name="LOGGEDIN">loggedin</string>
     <string name="action_logout">LOGOUT</string>
 
+    <string name="LOGIN_FILE"> com.example.hinds.webservicelab.LOGIN_FILE</string>
 </resources>

@@ -112,6 +112,29 @@ public class CourseFragment extends Fragment {
                     Toast.LENGTH_SHORT) .show();
 
         }
+//Read from file and show the text
+
+        try {
+            InputStream inputStream = getActivity().openFileInput(
+                    getString(R.string.LOGIN_FILE));
+
+            if ( inputStream != null ) {
+                InputStreamReader inputStreamReader = new InputStreamReader(inputStream);
+                BufferedReader bufferedReader = new BufferedReader(inputStreamReader);
+                String receiveString = "";
+                StringBuilder stringBuilder = new StringBuilder();
+
+                while ((receiveString = bufferedReader.readLine()) != null) {
+                    stringBuilder.append(receiveString);
+                }
+
+                inputStream.close();
+                Toast.makeText(getActivity(), stringBuilder.toString(), Toast.LENGTH_SHORT)
+                        .show();
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
 
         return view;
     }
