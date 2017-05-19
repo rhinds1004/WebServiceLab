@@ -1,13 +1,20 @@
 package com.example.hinds.webservicelab;
 
+import android.content.Context;
+import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Toast;
 
+import com.example.hinds.webservicelab.authenticate.SignInActivity;
 import com.example.hinds.webservicelab.course.Course;
 
 import org.json.JSONException;
@@ -69,7 +76,31 @@ public class CourseActivity extends AppCompatActivity implements
 
     }
 
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.menu_course_list, menu);
+        return true;
+    }
 
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        // Handle item selection
+        boolean result = false;
+        switch (item.getItemId()) {
+            case R.id.action_logout:
+                SharedPreferences sharedPreferences =
+                        getSharedPreferences(getString(R.string.LOGIN_PREFS), Context.MODE_PRIVATE);
+                sharedPreferences.edit().putBoolean(getString(R.string.LOGGEDIN), false)
+                        .commit();
+
+                Intent i = new Intent(this, SignInActivity.class);
+                startActivity(i);
+                finish();
+                result = true;
+        }
+        return result;
+    }
 
     @Override
     public void addCourse(String url) {
