@@ -20,6 +20,7 @@ import android.widget.Toast;
 
 
 import com.example.hinds.webservicelab.course.Course;
+import com.example.hinds.webservicelab.data.CourseDB;
 
 import java.io.BufferedReader;
 import java.io.InputStream;
@@ -30,6 +31,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static android.content.ContentValues.TAG;
+
 
 /**
  * A fragment representing a list of Items.
@@ -50,6 +52,8 @@ public class CourseFragment extends Fragment {
 
 
     private static final String COURSE_URL = "http://cssgate.insttech.washington.edu/~hindsr/Android/list.php?cmd=courses";
+    private CourseDB mCourseDB;
+    private List<Course> mCourseList;
 
     /**
      * Mandatory empty constructor for the fragment manager to instantiate the
@@ -108,8 +112,17 @@ public class CourseFragment extends Fragment {
         }
         else {
             Toast.makeText(view.getContext(),
-                    "No network connection available. Cannot display courses",
+                    "No network connection available. Displaying locally stored data",
                     Toast.LENGTH_SHORT) .show();
+
+            if (mCourseDB == null) {
+                mCourseDB = new CourseDB(getActivity());
+            }
+            if (mCourseList == null) {
+                mCourseList = mCourseDB.getCourses();
+            }
+            mRecyclerView.setAdapter(new MyCourseRecyclerViewAdapter(mCourseList, mListener));
+
 
         }
 //Read from file and show the text
@@ -180,6 +193,9 @@ public class CourseFragment extends Fragment {
 
     private class DownloadCoursesTask extends AsyncTask<String, Void, String> {
         //private OnEditFragmentInteractionListener mListener;
+        private CourseDB mCourseDB;
+        private List<Course> mCourseList;
+
         @Override
         protected String doInBackground(String... urls) {
             String response = "";
@@ -215,8 +231,8 @@ public class CourseFragment extends Fragment {
                 return;
             }
 
-            List<Course> courseList = new ArrayList<Course>();
-            result = Course.parseCourseJSON(result, courseList);
+            mCourseList = new ArrayList<Course>();
+            result = Course.parseCourseJSON(result, mCourseList);
             // Something wrong with the JSON returned.
             if (result != null) {
                 Toast.makeText(getActivity().getApplicationContext(), result, Toast.LENGTH_LONG)
@@ -225,13 +241,37 @@ public class CourseFragment extends Fragment {
             }
 
             // Everything is good, show the list of courses.
-            if (!courseList.isEmpty()) {
+            if (!mCourseList.isEmpty()) {
 
-                mRecyclerView.setAdapter(new MyCourseRecyclerViewAdapter(courseList, mListener));
+                if (mCourseDB == null) {
+                    mCourseDB = new CourseDB(getActivity());
+                }
+
+                // Delete old data so that you can refresh the local
+                // database with the network data.
+                mCourseDB.deleteCourses();
+
+
+                // Also, add to the local database
+                for (int i=0; i<mCourseList.size(); i++) {
+                    Course course = mCourseList.get(i);
+
+                    mCourseDB.insertCourse(course.getmCourseId(),
+                            course.getmShortDescription(),
+                            course.getmLongDescription(),
+                            course.getmPrereqs());
+                }
+
+
+                Course mFirstCourse = mCourseList.get(0);
+                mRecyclerView.setAdapter(new MyCourseRecyclerViewAdapter(mCourseList, mListener));
             }
         }
 
-
-
     }
+
+
+
+
 }
+

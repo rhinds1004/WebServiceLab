@@ -13,7 +13,11 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.hinds.webservicelab.course.Course;
+import com.example.hinds.webservicelab.data.CourseDB;
+
 import java.net.URLEncoder;
+import java.util.List;
 
 
 /**
@@ -43,6 +47,9 @@ public class CourseEditFragment extends Fragment {
 
    // private OnFragmentInteractionListener mListener;
     private CourseAddFragment.CourseAddListener mListener;
+
+    private CourseDB mCourseDB;
+    private List<Course> mCourseList;
 
     public CourseEditFragment() {
         // Required empty public constructor
@@ -94,6 +101,13 @@ public class CourseEditFragment extends Fragment {
         editCourseButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                if (mCourseDB == null) {
+                    mCourseDB = new CourseDB(getActivity());
+                }
+                boolean result = mCourseDB.updateCourse(mCourseIdTextView.getText().toString(), mCourseShortDescEditText.getText().toString(),
+                        mCourseLongDescEditText.getText().toString(), mCoursePrereqsEditText.getText().toString());
+                Toast.makeText(v.getContext(), "Local database update: " + result , Toast.LENGTH_LONG)
+                        .show();
                 String url = buildCourseURL(v);
                 mListener.addCourse(url);
             }
@@ -102,6 +116,7 @@ public class CourseEditFragment extends Fragment {
 
         return view;
     }
+
 
     private final static String COURSE_EDIT_URL
             = "http://cssgate.insttech.washington.edu/~hindsr/Android/editCourse.php?";
