@@ -109,10 +109,12 @@ public class CourseDB {
         contentValues.put("shortDesc", shortDesc);
         contentValues.put("longDesc", longDesc);
         contentValues.put("prereqs", prereqs);
-        String whereClause = "id="+id;
-       if(mSQLiteDatabase.update(COURSE_TABLE, contentValues, null, null) == 0){
-           return false;
-       }
+        String whereClause = "id='"+id+"'";
+        mSQLiteDatabase.execSQL("UPDATE " + COURSE_TABLE + " SET shortDesc='" + shortDesc + "', "
+             + "longDesc='"+ longDesc + "', " + "prereqs='" + prereqs + "' "   + "WHERE id='" + id + "';" );
+//       if(mSQLiteDatabase.update(COURSE_TABLE, contentValues,  null) == 0){
+//           return false;
+//       }
         return true;
     }
 
